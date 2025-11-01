@@ -15,17 +15,14 @@ enum GameState {
 
 extern GameState currentState;
 
-// Update functions
 void UpdateTitle();
 void UpdatePlaying();
 void UpdatePaused();
 void UpdateGameOver();
 
-// Draw functions
 void DrawTitle();
 void DrawPlaying();
 void DrawPaused();
 void DrawGameOver();
 
-// Setup
 void SetUpGame();

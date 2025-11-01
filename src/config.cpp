@@ -24,7 +24,6 @@ CpuPaddle cpu;
 
 GameState currentState = TITLE;
 
-
 void UpdateTitle()
 {
     if (IsKeyPressed(KEY_ENTER))
@@ -38,21 +37,19 @@ void UpdateTitle()
 
 void UpdatePlaying()
 {
-
     ball.Update(cpu.score, p1.score);
     p1.Update();
     cpu.Update(ball.y);
-
 
     if (CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{p1.x, p1.y, p1.width, p1.height}))
     {
         ball.speed_x *= -1;
     }
+
     if (CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{cpu.x, cpu.y, cpu.width, cpu.height}))
     {
         ball.speed_x *= -1;
     }
-
 
     if (IsKeyPressed(KEY_P))
     {
@@ -85,11 +82,10 @@ void UpdateGameOver()
     }
 }
 
-
 void DrawTitle()
 {
     const char *title = "PONG";
-    const char *subtitle = "Premi ENTER per giocare";
+    const char *subtitle = "Press ENTER to play";
 
     int fontSize1 = 120;
     int fontSize2 = 50;
@@ -106,14 +102,11 @@ void DrawTitle()
 
 void DrawPlaying()
 {
-
     DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);
-
 
     p1.Draw();
     cpu.Draw();
     ball.Draw();
-
 
     DrawText(TextFormat("%i", cpu.score), screenWidth / 4 - 20, 20, 80, WHITE);
     DrawText(TextFormat("%i", p1.score), 3 * screenWidth / 4 - 20, 20, 80, WHITE);
@@ -121,19 +114,16 @@ void DrawPlaying()
 
 void DrawPaused()
 {
-
     DrawPlaying();
-
 
     DrawRectangle(0, 0, screenWidth, screenHeight, Fade(BLACK, 0.5f));
 
-
-    const char *text = "PAUSA";
-    const char *controls = "P = Riprendi  |  M = Menu";
+    const char *text = "PAUSED";
+    const char *controls = "P = Resume     M = Menu";
     int fontSize = 80;
     int fontSize2 = 30;
     int x = (screenWidth - MeasureText(text, fontSize)) / 2;
-    int y = screenHeight / 2;
+    int y = (screenHeight / 2) - (fontSize / 2);
     int x2 = (screenWidth - MeasureText(controls, fontSize2)) / 2;
 
     DrawText(text, x, y, fontSize, WHITE);
@@ -146,12 +136,15 @@ void DrawGameOver()
 
     DrawRectangle(0, 0, screenWidth, screenHeight, Fade(BLACK, 0.7f));
 
-    const char *winner = (p1.score >= 10) ? "GIOCATORE VINCE!" : "CPU VINCE!";
+    const char *winner = (p1.score >= 10) ? "PLAYER WINS!" : "CPU WINS!";
+    const char *instruction = "Press ENTER";
     int fontSize = 60;
+    int fontSize2 = 40;
     int x = (screenWidth - MeasureText(winner, fontSize)) / 2;
+    int x2 = (screenWidth - MeasureText(instruction, fontSize2)) / 2;
 
     DrawText(winner, x, screenHeight / 2 - 50, fontSize, YELLOW);
-    DrawText("Premi ENTER", x + 50, screenHeight / 2 + 50, 40, WHITE);
+    DrawText(instruction, x2, screenHeight / 2 + 50, fontSize2, WHITE);
 }
 
 void SetUpGame()
